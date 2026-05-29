@@ -1,1 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
+body {
+    min-height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    perspective: 1000px;
+}
+
+.grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: linear-gradient(90deg, rgba(147, 51, 234, 0.1) 1px, transparent 1px), linear-gradient(rgba(147, 51, 234, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: rotateX(60deg);
+    animation: grid 20s linear infinite;
+}
+
+@keyframes grid {
+    0% { transform: rotateX(60deg) translateY(0); }
+    100% { transform: rotateX(60deg) translateY(40px); }
+}
+
+.container {
+    max-width: 600px;
+    width: 90%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(147, 51, 234, 0.3);
+    position: relative;
+}
+
+.profile-img::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(circle at center, rgba(147, 51, 234, 0.4) 0%, transparent 70%);
+    border-radius: 25px;
+    z-index: -1;
+    filter: blur(10px);
+}
+
+.name {
+    font-size: 28px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff007f, #7f00ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+
+.bio {
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.link {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    display: inline-flex; /* 👈 แก้เป็น inline-flex เพื่อให้ขนาดปุ่มหดพอดีคำตามเนื้อหา */
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🌓 เติมตรงนี้เพิ่มเข้าไปด้วยเพื่อให้ตอนกดปุ่มเปลี่ยนโหมดแล้วสีมันเฟดนุ่มๆ ตา */
+body {
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* 📍 สไตล์พิเศษล็อกขนาดให้ปุ่ม MSU เล็กกะทัดรัด ไม่เบิ้มเท่าปุ่ม IG */
+div a.link[href*="msu.ac.th"] {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    height: 32px;
+}
+
+.link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(147, 51, 234, 0.4);
+    background: rgba(147, 51, 234, 0.1);
+}
+
+.link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    transition: 0.5s;
+}
+
+.link:hover::before {
+    left: 100%;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.icon svg {
+    width: 20px;
+    height: 20px;
+    fill: #a855f7;
+}
+
+@media (max-width: 480px) {
+    .container { width: 95%; }
+    .profile-img { width: 100px; height: 100px; }
+    .name { font-size: 24px; }
+}
+/* 🌓 บังคับให้บอดี้และทุกอย่างบนหน้าเฟดสีแบบละมุน 0.8 วินาที */
+body, body *, .container, .profile, .name, .bio {
+    transition: background 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease !important;
+}
+
+/* ☀️ ธีมสีตอนเปิด Light Mode (บังคับเปลี่ยนสีทุกส่วนให้สว่างและอ่านง่าย) */
+body.light-theme {
+    background: #f4f4f5 !important;
+    color: #18181b !important;
+}
+
+body.light-theme .name {
+    color: #9333ea !important; /* เปลี่ยนชื่อ FamluvUUU เป็นสีม่วงเข้มตอนจอขาว */
+}
+
+body.light-theme .bio {
+    color: #4b5563 !important; /* เปลี่ยนคำโปรยเป็นสีเทาเข้ม */
+}
+
+/* ปรับกล่องข้อความและกล่องวันเกิดตอนจอขาวให้มองเห็นชัดเจน */
+body.light-theme div[style*="background: rgba(0, 0, 0, 0.4)"] {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #18181b !important;
+}
+
+body.light-theme span[style*="background: rgba(0, 0, 0, 0.4)"] {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #4b5563 !important;
+}
+
+body.light-theme #days, body.light-theme #hours, body.light-theme #minutes {
+    color: #18181b !important;
+}
+/* 🔓 ปลดล็อกให้หน้าเว็บเลื่อนขึ้นลงได้ตามธรรมชาติ และเพิ่มเอฟเฟคเลื่อนแบบสมูท */
+html, body {
+    overflow-x: hidden !important; /* ห้ามเลื่อนซ้ายขวา (ป้องกันหน้าเว็บเบี้ยว) */
+    overflow-y: auto !important;   /* ปลดล็อกให้เลื่อนขึ้นลงได้ปกติ */
+    scroll-behavior: smooth;       /* เวลาเลื่อนจะนุ่มๆ สบายตา */
+}
+
+/* 🧼 แถม: ซ่อนแถบเลื่อน (Scrollbar) ด้านขวาเพื่อความสวยงาม คลีนๆ เหมือนแอป */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+/* ✨ เอฟเฟคตอนเอาเมาส์ชี้ (Hover) ให้ปุ่มเด้งสู้มือแบบนุ่มๆ */
+.social-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    filter: brightness(1.15);
+}
+
+/* ☀️ ปรับแต่งปุ่ม Instagram ให้รองรับโหมดสว่าง (Light Mode) */
+body.light-theme .ig-btn {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #18181b !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .ig-btn .btn-subtext {
+    color: #6b7280 !important; /* เปลี่ยนซับเท็กซ์เป็นสีเทาเข้มตอนจอขาว */
+}
+
+/* ส่วนปุ่ม Discord ล็อกสีน้ำเงินแบรนด์ดั้งเดิมไว้ตามเทมเพลตเดิมมึง */
+body.light-theme .dc-btn {
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2) !important;
+}
+/* =======================================================
+   ✨ เอฟเฟคขยับพร้อมยิงแสงนีออนฉ่ำๆ แบบป้าย MSU ตอนเมาส์ชี้ ✨
+========================================================== */
+
+/* เอฟเฟคตอนเมาส์ชี้ปุ่ม Instagram (ยิงแสงนีออนสีม่วงสว่างวาบออกรอบตัว) */
+.ig-btn:hover {
+    transform: translateY(-4px) scale(1.03) !important; /* ยกตัวขึ้นและขยายเล็กน้อย */
+    border-color: #bd5fff !important; /* เปลี่ยนขอบเป็นสีม่วงสว่าง */
+    background: rgba(147, 51, 234, 0.2) !important; /* เติมเนื้อในสีม่วงจางๆ */
+    /* 🔮 ไฮไลท์: สั่งยิงแสงออร่าสีม่วงนีออนฟุ้งๆ ออกรอบกล่องเหมือนป้าย MSU */
+    box-shadow: 0 0 20px rgba(189, 95, 255, 0.6), 0 0 40px rgba(147, 51, 234, 0.3) !important;
+    filter: brightness(1.2);
+}
+
+/* เอฟเฟคตอนเมาส์ชี้ปุ่ม Discord (ยิงแสงนีออนสีน้ำเงิน/ม่วง สไตล์เกมเมอร์) */
+.dc-btn:hover {
+    transform: translateY(-4px) scale(1.03) !important;
+    border-color: #858ffc !important; /* เปลี่ยนขอบเป็นน้ำเงินสว่าง */
+    background: linear-gradient(135deg, #6773f5, #4e5be6) !important; /* เร่งสี Gradient ให้สดขึ้น */
+    /* 🔮 ไฮไลท์: สั่งยิงแสงออร่าสีน้ำเงินผสมม่วงฟุ้งกระจายรอบปุ่ม */
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.7), 0 0 40px rgba(147, 51, 234, 0.4) !important;
+    filter: brightness(1.2);
+}
+/* =======================================================
+   🔮 เอฟเฟคนีออนฉ่ำๆ สไตล์ MSU สำหรับกล่องโปรไฟล์คู่โฉมใหม่ 
+========================================================== */
+.social-profile-card:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+    filter: brightness(1.15);
+}
+
+/* ตอนชี้ปุ่ม Instagram -> ยิงออร่านีออนม่วงอมชมพู */
+.ig-card:hover {
+    border-color: #ff458f !important;
+    background: rgba(255, 69, 143, 0.15) !important;
+    box-shadow: 0 0 20px rgba(255, 69, 143, 0.6), 0 0 40px rgba(147, 51, 234, 0.3) !important;
+}
+
+/* ตอนชี้ปุ่ม Discord -> ยิงออร่านีออนน้ำเงินม่วงฉ่ำๆ แบบดิสคอร์ด */
+.dc-card:hover {
+    border-color: #5865F2 !important;
+    background: rgba(88, 101, 242, 0.25) !important;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.7), 0 0 40px rgba(147, 51, 234, 0.4) !important;
+}
+
+/* ☀️ ซัพพอร์ตโหมดสว่าง (Light Mode) ให้สีตัวอักษรอ่านง่าย */
+body.light-theme .social-profile-card {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .social-profile-card span,
+body.light-theme .btn-username {
+    color: #18181b !important;
+}
+body.light-theme .user-avatar {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+}
+.music-player-card {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.music-player-card iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    border: none;
+}
+
+.music-info {
+    margin-top: 12px;
+    color: #ffffff;
+    font-family: 'Kanit', sans-serif;
+}
+
+.music-info h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.music-info p {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    opacity: 0.6;
+}
